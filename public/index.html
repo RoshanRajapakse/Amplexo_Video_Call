@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stream Video Call</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://unpkg.com/@stream-io/video-client/dist/browser.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>📹 Stream Video Conference</h1>
+    <div class="form-section">
+      <input id="userId" placeholder="Enter your user ID" />
+      <button id="joinBtn">Join Call</button>
+    </div>
+
+    <div class="video-section">
+      <div>
+        <h3>You</h3>
+        <video id="localVideo" autoplay muted></video>
+      </div>
+      <div>
+        <h3>Remote</h3>
+        <video id="remoteVideo" autoplay></video>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
