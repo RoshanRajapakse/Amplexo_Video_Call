@@ -12,9 +12,11 @@ startBtn.addEventListener('click', () => {
 
   ws = new WebSocket(`wss://${window.location.host}`);
   ws.onopen = () => {
-    ws.send(JSON.stringify({ type: 'register', sender: userId }));
-  };
+  console.log('WebSocket connected');
+  ws.send(JSON.stringify({ type: 'register', sender: userId }));
+};
   ws.onmessage = async (event) => {
+    console.log('Message received:', event.data);
     const data = JSON.parse(event.data);
 
     if (data.type === 'offer') {
@@ -64,6 +66,7 @@ async function createPeerConnection(userId, peerId) {
 
   // ICE candidates
   peerConnection.onicecandidate = (event) => {
+    console.log('Sending ICE candidate', event.candidate);
     if (event.candidate) {
       ws.send(JSON.stringify({ 
         type: 'ice-candidate', 
