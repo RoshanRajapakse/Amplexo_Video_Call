@@ -5,14 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stream Video Call</title>
   <link rel="stylesheet" href="css/style.css" />
-  <script src="https://unpkg.com/@stream-io/video-client/dist/browser.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>📹 Stream Video Conference</h1>
+    
     <div class="form-section">
-      <input id="userId" placeholder="Enter your user ID" />
-      <button id="joinBtn">Join Call</button>
+      <input id="userId" placeholder="Your user ID" />
+      <input id="peerId" placeholder="Peer user ID" />
+      <button id="startCall">Start Call</button>
     </div>
 
     <div class="video-section">
