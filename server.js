@@ -12,8 +12,8 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // GetStream credentials
-const apiKey = '7zcag4zcpv26';
-const apiSecret = 'j3fp48hxwwgmfpuppghye92avgmbqyg4hwwddhpaezg8p4ryh76s8fckbd8wuvgm';
+const apiKey = process.env.STREAM_API_KEY;
+const apiSecret = process.env.STREAM_API_SECRET;
 
 const server = new StreamVideoServer(apiKey, apiSecret);
 
