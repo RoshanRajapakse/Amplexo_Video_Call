@@ -5,26 +5,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Amplexo Video Call</title>
   <link rel="stylesheet" href="css/style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <div class="app-container">
-    <!-- Header -->
-    <header class="header">
-      <div class="header-content">
-        <div class="logo">
+    <!-- Title Bar -->
+    <div class="title-bar">
+      <div class="title-bar-content">
+        <div class="app-title">
           <i class="fas fa-video"></i>
-          <h1>Amplexo</h1>
+          <span>Amplexo Video Call</span>
         </div>
-        <div class="connection-status">
-          <span class="status-indicator" id="statusIndicator"></span>
-          <span class="status-text" id="statusText">Ready to connect</span>
+        <div class="title-bar-controls">
+          <button class="title-bar-btn" id="minimizeBtn" title="Minimize">
+            <i class="fas fa-window-minimize"></i>
+          </button>
+          <button class="title-bar-btn" id="maximizeBtn" title="Maximize">
+            <i class="fas fa-window-maximize"></i>
+          </button>
+          <button class="title-bar-btn close-btn" id="closeBtn" title="Close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ribbon Header -->
+    <header class="ribbon">
+      <div class="ribbon-tabs">
+        <div class="ribbon-tab active" data-tab="home">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </div>
+        <div class="ribbon-tab" data-tab="call">
+          <i class="fas fa-phone"></i>
+          <span>Call</span>
+        </div>
+        <div class="ribbon-tab" data-tab="settings">
+          <i class="fas fa-cog"></i>
+          <span>Settings</span>
+        </div>
+      </div>
+      
+      <div class="ribbon-content">
+        <div class="ribbon-group">
+          <div class="ribbon-group-title">Connection</div>
+          <div class="ribbon-group-content">
+            <div class="connection-status">
+              <span class="status-indicator" id="statusIndicator"></span>
+              <span class="status-text" id="statusText">Ready to connect</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="ribbon-group">
+          <div class="ribbon-group-title">Controls</div>
+          <div class="ribbon-group-content">
+            <button class="ribbon-btn" id="muteBtn" title="Mute/Unmute (Ctrl+M)">
+              <i class="fas fa-microphone"></i>
+              <span>Mute</span>
+            </button>
+            <button class="ribbon-btn" id="videoBtn" title="Video On/Off (Ctrl+V)">
+              <i class="fas fa-video"></i>
+              <span>Video</span>
+            </button>
+            <button class="ribbon-btn danger" id="endBtn" title="End Call (Ctrl+E)">
+              <i class="fas fa-phone-slash"></i>
+              <span>End Call</span>
+            </button>
+          </div>
         </div>
       </div>
     </header>
 
-    <!-- Main Content -->
+    <!-- Main Content Area -->
     <main class="main-content">
       <!-- Video Grid -->
       <div class="video-grid">
@@ -32,10 +87,10 @@
           <div class="video-header">
             <h3><i class="fas fa-user"></i> You</h3>
             <div class="video-controls">
-              <button class="control-btn" id="muteBtn" title="Mute/Unmute">
+              <button class="control-btn" id="muteBtnSmall" title="Mute/Unmute">
                 <i class="fas fa-microphone"></i>
               </button>
-              <button class="control-btn" id="videoBtn" title="Video On/Off">
+              <button class="control-btn" id="videoBtnSmall" title="Video On/Off">
                 <i class="fas fa-video"></i>
               </button>
             </div>
@@ -92,7 +147,7 @@
               <i class="fas fa-phone"></i>
               Start Call
             </button>
-            <button id="endBtn" class="btn btn-danger">
+            <button id="endBtnPanel" class="btn btn-danger">
               <i class="fas fa-phone-slash"></i>
               End Call
             </button>
@@ -101,13 +156,19 @@
       </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="footer-content">
-        <p><i class="fas fa-shield-alt"></i> Secure WebRTC Connection</p>
-        <p><i class="fas fa-code"></i> Powered by Amplexo</p>
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <div class="status-bar-content">
+        <div class="status-item">
+          <i class="fas fa-shield-alt"></i>
+          <span>Secure WebRTC Connection</span>
+        </div>
+        <div class="status-item">
+          <i class="fas fa-code"></i>
+          <span>Powered by Amplexo</span>
+        </div>
       </div>
-    </footer>
+    </div>
   </div>
 
   <script src="js/app.js"></script>

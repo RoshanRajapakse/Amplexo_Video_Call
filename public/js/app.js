@@ -1,12 +1,21 @@
 // DOM Elements
 const startBtn = document.getElementById('startCall');
 const endBtn = document.getElementById('endBtn');
+const endBtnPanel = document.getElementById('endBtnPanel');
 const muteBtn = document.getElementById('muteBtn');
+const muteBtnSmall = document.getElementById('muteBtnSmall');
 const videoBtn = document.getElementById('videoBtn');
+const videoBtnSmall = document.getElementById('videoBtnSmall');
 const localVideo = document.getElementById('localVideo');
 const remoteVideo = document.getElementById('remoteVideo');
 const statusIndicator = document.getElementById('statusIndicator');
 const statusText = document.getElementById('statusText');
+
+// Ribbon tab elements
+const ribbonTabs = document.querySelectorAll('.ribbon-tab');
+const minimizeBtn = document.getElementById('minimizeBtn');
+const maximizeBtn = document.getElementById('maximizeBtn');
+const closeBtn = document.getElementById('closeBtn');
 
 // State variables
 let ws, peerConnection, localStream;
@@ -18,11 +27,75 @@ const servers = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 function initializeUI() {
   updateStatus('disconnected', 'Ready to connect');
   endBtn.disabled = true;
+  endBtnPanel.disabled = true;
   
   // Add event listeners for video controls
   muteBtn.addEventListener('click', toggleMute);
+  muteBtnSmall.addEventListener('click', toggleMute);
   videoBtn.addEventListener('click', toggleVideo);
+  videoBtnSmall.addEventListener('click', toggleVideo);
   endBtn.addEventListener('click', endCall);
+  endBtnPanel.addEventListener('click', endCall);
+  
+  // Initialize ribbon tabs
+  initializeRibbonTabs();
+  
+  // Initialize title bar controls
+  initializeTitleBarControls();
+}
+
+// Initialize ribbon tabs
+function initializeRibbonTabs() {
+  ribbonTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Remove active class from all tabs
+      ribbonTabs.forEach(t => t.classList.remove('active'));
+      // Add active class to clicked tab
+      tab.classList.add('active');
+      
+      // Handle tab switching
+      const tabName = tab.getAttribute('data-tab');
+      switchTab(tabName);
+    });
+  });
+}
+
+// Handle tab switching
+function switchTab(tabName) {
+  console.log('Switching to tab:', tabName);
+  // Add specific functionality for each tab
+  switch(tabName) {
+    case 'home':
+      // Home tab functionality
+      break;
+    case 'call':
+      // Call tab functionality
+      break;
+    case 'settings':
+      // Settings tab functionality
+      break;
+  }
+}
+
+// Initialize title bar controls
+function initializeTitleBarControls() {
+  minimizeBtn.addEventListener('click', () => {
+    // Minimize functionality
+    console.log('Minimize clicked');
+  });
+  
+  maximizeBtn.addEventListener('click', () => {
+    // Maximize functionality
+    console.log('Maximize clicked');
+  });
+  
+  closeBtn.addEventListener('click', () => {
+    // Close functionality
+    console.log('Close clicked');
+    if (confirm('Are you sure you want to close the application?')) {
+      window.close();
+    }
+  });
 }
 
 // Status management
@@ -40,8 +113,13 @@ function toggleMute() {
     audioTrack.enabled = !audioTrack.enabled;
     isMuted = !audioTrack.enabled;
     
+    // Update both mute buttons
     muteBtn.classList.toggle('active', isMuted);
-    muteBtn.innerHTML = isMuted ? '<i class="fas fa-microphone-slash"></i>' : '<i class="fas fa-microphone"></i>';
+    muteBtnSmall.classList.toggle('active', isMuted);
+    
+    const muteIcon = isMuted ? '<i class="fas fa-microphone-slash"></i>' : '<i class="fas fa-microphone"></i>';
+    muteBtn.innerHTML = muteIcon + '<span>Mute</span>';
+    muteBtnSmall.innerHTML = muteIcon;
   }
 }
 
@@ -54,8 +132,13 @@ function toggleVideo() {
     videoTrack.enabled = !videoTrack.enabled;
     isVideoOff = !videoTrack.enabled;
     
+    // Update both video buttons
     videoBtn.classList.toggle('active', isVideoOff);
-    videoBtn.innerHTML = isVideoOff ? '<i class="fas fa-video-slash"></i>' : '<i class="fas fa-video"></i>';
+    videoBtnSmall.classList.toggle('active', isVideoOff);
+    
+    const videoIcon = isVideoOff ? '<i class="fas fa-video-slash"></i>' : '<i class="fas fa-video"></i>';
+    videoBtn.innerHTML = videoIcon + '<span>Video</span>';
+    videoBtnSmall.innerHTML = videoIcon;
   }
 }
 
@@ -84,14 +167,22 @@ function endCall() {
   updateStatus('disconnected', 'Ready to connect');
   startBtn.disabled = false;
   endBtn.disabled = true;
+  endBtnPanel.disabled = true;
   muteBtn.disabled = true;
+  muteBtnSmall.disabled = true;
   videoBtn.disabled = true;
+  videoBtnSmall.disabled = true;
   
   // Reset control buttons
   muteBtn.classList.remove('active');
+  muteBtnSmall.classList.remove('active');
   videoBtn.classList.remove('active');
-  muteBtn.innerHTML = '<i class="fas fa-microphone"></i>';
-  videoBtn.innerHTML = '<i class="fas fa-video"></i>';
+  videoBtnSmall.classList.remove('active');
+  
+  muteBtn.innerHTML = '<i class="fas fa-microphone"></i><span>Mute</span>';
+  muteBtnSmall.innerHTML = '<i class="fas fa-microphone"></i>';
+  videoBtn.innerHTML = '<i class="fas fa-video"></i><span>Video</span>';
+  videoBtnSmall.innerHTML = '<i class="fas fa-video"></i>';
   
   // Show video placeholders
   document.querySelectorAll('.video-overlay').forEach(overlay => {
@@ -197,7 +288,9 @@ async function startLocalVideo() {
     
     // Enable control buttons
     muteBtn.disabled = false;
+    muteBtnSmall.disabled = false;
     videoBtn.disabled = false;
+    videoBtnSmall.disabled = false;
     
     return localStream;
   } catch (error) {
@@ -232,6 +325,7 @@ async function createPeerConnection(userId, peerId) {
     
     updateStatus('connected', 'Connected');
     endBtn.disabled = false;
+    endBtnPanel.disabled = false;
   };
 
   // Handle ICE candidates
@@ -268,6 +362,27 @@ async function createPeerConnection(userId, peerId) {
     console.log('ICE connection state:', peerConnection.iceConnectionState);
   };
 }
+
+// Keyboard shortcuts for MS Word-like experience
+document.addEventListener('keydown', (event) => {
+  // Ctrl+M for mute
+  if (event.ctrlKey && event.key === 'm') {
+    event.preventDefault();
+    toggleMute();
+  }
+  
+  // Ctrl+V for video toggle
+  if (event.ctrlKey && event.key === 'v') {
+    event.preventDefault();
+    toggleVideo();
+  }
+  
+  // Ctrl+E for end call
+  if (event.ctrlKey && event.key === 'e') {
+    event.preventDefault();
+    endCall();
+  }
+});
 
 // Initialize the UI when the page loads
 document.addEventListener('DOMContentLoaded', initializeUI);
