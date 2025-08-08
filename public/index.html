@@ -5,33 +5,109 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Amplexo Video Call</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <div class="header">
-    <h1>Amplexo Video Meeting</h1>
-  </div>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <i class="fas fa-video"></i>
+          <h1>Amplexo</h1>
+        </div>
+        <div class="connection-status">
+          <span class="status-indicator" id="statusIndicator"></span>
+          <span class="status-text" id="statusText">Ready to connect</span>
+        </div>
+      </div>
+    </header>
 
-  <div class="controls-bar">
-    <input id="userId" placeholder="Your ID" />
-    <input id="peerId" placeholder="Peer ID" />
-    <button id="startCall"> Start Call</button>
-    <button id="muteBtn"> Mute</button>
-    <button id="endBtn" class="end"> End</button>
-  </div>
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Video Grid -->
+      <div class="video-grid">
+        <div class="video-container local-video">
+          <div class="video-header">
+            <h3><i class="fas fa-user"></i> You</h3>
+            <div class="video-controls">
+              <button class="control-btn" id="muteBtn" title="Mute/Unmute">
+                <i class="fas fa-microphone"></i>
+              </button>
+              <button class="control-btn" id="videoBtn" title="Video On/Off">
+                <i class="fas fa-video"></i>
+              </button>
+            </div>
+          </div>
+          <div class="video-wrapper">
+            <video id="localVideo" autoplay muted></video>
+            <div class="video-overlay">
+              <div class="video-placeholder">
+                <i class="fas fa-user"></i>
+                <p>Your camera</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="video-container remote-video">
+          <div class="video-header">
+            <h3><i class="fas fa-users"></i> Remote</h3>
+          </div>
+          <div class="video-wrapper">
+            <video id="remoteVideo" autoplay></video>
+            <div class="video-overlay">
+              <div class="video-placeholder">
+                <i class="fas fa-phone"></i>
+                <p>Waiting for connection...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-  <div class="video-grid">
-    <div class="video-container">
-      <h3>You</h3>
-      <video id="localVideo" autoplay muted></video>
-    </div>
-    <div class="video-container">
-      <h3>Remote</h3>
-      <video id="remoteVideo" autoplay></video>
-    </div>
-  </div>
+      <!-- Connection Panel -->
+      <div class="connection-panel">
+        <div class="panel-header">
+          <h3><i class="fas fa-plug"></i> Connection Settings</h3>
+        </div>
+        <div class="connection-form">
+          <div class="input-group">
+            <label for="userId">Your ID</label>
+            <div class="input-wrapper">
+              <i class="fas fa-id-card"></i>
+              <input id="userId" placeholder="Enter your ID" />
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="peerId">Peer ID</label>
+            <div class="input-wrapper">
+              <i class="fas fa-user-friends"></i>
+              <input id="peerId" placeholder="Enter peer ID" />
+            </div>
+          </div>
+          <div class="action-buttons">
+            <button id="startCall" class="btn btn-primary">
+              <i class="fas fa-phone"></i>
+              Start Call
+            </button>
+            <button id="endBtn" class="btn btn-danger">
+              <i class="fas fa-phone-slash"></i>
+              End Call
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
 
-  <div class="footer">
-    <p>Powered by WebRTC</p>
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <p><i class="fas fa-shield-alt"></i> Secure WebRTC Connection</p>
+        <p><i class="fas fa-code"></i> Powered by Amplexo</p>
+      </div>
+    </footer>
   </div>
 
   <script src="js/app.js"></script>
