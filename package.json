@@ -1,10 +1,11 @@
 {
-  "name": "getstream-video-app",
+  "name": "amplexo-health-hotel-consultation",
   "version": "1.0.0",
-  "description": "GetStream video calling app",
+  "description": "Amplexo HEALTH - Hotel Video Consultation System",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -12,5 +13,17 @@
     "body-parser": "^1.20.2",
     "getstream": "^8.2.0",
     "ws": "^8.13.0"
-  }
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "keywords": [
+    "hotel",
+    "health",
+    "video-consultation",
+    "webrtc",
+    "appointment-booking"
+  ],
+  "author": "Amplexo HEALTH",
+  "license": "MIT"
 }
