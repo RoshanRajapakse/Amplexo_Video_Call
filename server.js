@@ -28,7 +28,7 @@ const server = app.listen(PORT, () => console.log(`Server running on ${PORT}`));
 
 // ---- WebSocket signaling ----
 const wss = new WebSocketServer({ server });
-let clients = {};
+const clients = {};
 
 wss.on('connection', (ws) => {
   ws.on('message', (msg) => {
@@ -43,7 +43,7 @@ wss.on('connection', (ws) => {
   });
 
   ws.on('close', () => {
-    for (let id in clients) {
+    for (const id in clients) {
       if (clients[id] === ws) delete clients[id];
     }
   });
