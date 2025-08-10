@@ -4,27 +4,43 @@ import globals from "globals";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-  // Ignore build & dependency folders
-  { ignores: ["node_modules/**", "dist/**", "build/**"] },
+  // 1) Ignore stuff we never want to lint
+  { ignores: ["node_modules/**", "dist/**", "build/**", "eslint.config.*"] },
 
-  // Base recommended ESLint rules
+  // 2) Base recommended rules
   js.configs.recommended,
 
-  // Node.js-specific setup
+  // 3) Backend (Node/Express)
   {
-    files: ["**/*.{js,mjs,cjs}"], // no JSX, since it's not React
+    files: ["server.js", "src/**/*.js"],
     languageOptions: {
       ecmaVersion: 2023,
-      sourceType: "commonjs", // you use require() in Node
-      globals: {
-        ...globals.node, // Node global vars like require, __dirname
-      },
+      sourceType: "commonjs",
+      globals: { ...globals.node },
     },
     rules: {
       "no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
       "prefer-const": "error",
       "eqeqeq": ["error", "smart"],
-      "no-console": "off", // allow console.log in server
+      "no-console": "off",
+    },
+  },
+
+  // 4) Frontend (Browser)
+  {
+    files: ["public/**/*.js"],
+    languageOptions: {
+      ecmaVersion: 2023,
+      sourceType: "script",
+      globals: {
+        ...globals.browser,
+        RTCPeerConnection: "readonly",
+        RTCSessionDescription: "readonly",
+      },
+    },
+    rules: {
+      // you use alert/confirm intentionally in UI code
+      "no-alert": "off",
     },
   },
 ]);
