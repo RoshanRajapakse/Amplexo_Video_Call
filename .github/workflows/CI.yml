@@ -1,0 +1,46 @@
+name: CI #This is just the workflow’s name. It appears in the GitHub Actions tab.
+
+on:
+  push:  #Runs whenever you push commits to any branch 
+    branches: [ "**" ] #("**" matches everything)
+  pull_request: #Runs whenever a pull request is opened, synchronized, or reopened (any branch targeting another)
+
+jobs: #Runs whenever a pull request is opened, synchronized, or reopened (any branch targeting another)
+  build-and-test:
+    runs-on: ubuntu-latest #runs-on: ubuntu-latest → Each job runs inside a fresh Ubuntu virtual machine in GitHub’s cloud.
+    strategy:
+      matrix:
+        node-version: [18, 20]   # run the job twice- Once with Node.js v18- Once with Node.js v20
+    steps:
+      - name: Checkout #Pulls your repo’s code into the runner so subsequent steps can work on it.
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Install deps #Installs dependencies using the package-lock.json file
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint --if-present
+
+      - name: Test
+        run: npm test --if-present
+        env:
+          CI: true
+
+      - name: Build
+        run: npm run build --if-present
+
+      - name: Upload build artifact (optional)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ matrix.node-version }}
+          path: |
+            dist
+            build
+            out
